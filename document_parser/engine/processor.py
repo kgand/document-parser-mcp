@@ -42,7 +42,8 @@ class DocumentProcessor:
         try:
             import docling
 
-            self._logger.info(f"Docling version: {docling.__version__}")
+            version = getattr(docling, "__version__", "unknown")
+            self._logger.info(f"Docling version: {version}")
         except ImportError:
             raise ProcessingError(
                 "Docling library not installed",
