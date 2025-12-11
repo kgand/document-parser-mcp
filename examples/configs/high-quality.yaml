@@ -1,0 +1,49 @@
+# High Quality Configuration
+# Optimized for accuracy and quality
+
+server:
+  name: document-parser-mcp
+  version: 1.0.0
+  max_concurrent_jobs: 2
+  job_timeout_seconds: 1200
+
+storage:
+  temp_directory: ./temp
+  cleanup_interval_hours: 48
+  max_file_size_mb: 500
+  allowed_schemes: [http, https, ftp]
+  download_timeout_seconds: 900
+
+processing:
+  default_pipeline: standard
+  enable_pipeline_auto_detect: true
+
+  ocr:
+    engine: tesseract  # More accurate OCR
+    languages: [eng, spa, fra]  # Multiple languages
+    enable_auto_detect: true
+
+  pdf:
+    backend: dlparse_v4  # Highest quality backend
+    fallback_backend: pypdfium2
+    enable_table_extraction: true
+    table_accuracy_mode: accurate  # Accurate mode
+
+  performance:
+    max_memory_gb: 8
+    enable_mlx_acceleration: true
+    thread_count: 4
+
+logging:
+  level: INFO
+  format_string: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  file_path: ./logs/server.log
+  max_file_size_mb: 20
+  backup_count: 10
+  enable_json_logs: true
+
+retry:
+  enable_pipeline_fallback: true  # Enable fallbacks
+  enable_backend_fallback: true
+  max_attempts: 5  # More retries
+  delay_seconds: 3
