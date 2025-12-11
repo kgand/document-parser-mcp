@@ -1,0 +1,37 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black ruff mypy
+
+    - name: Check code formatting with black
+      run: |
+        black --check document_parser tests
+
+    - name: Lint with ruff
+      run: |
+        ruff check document_parser tests
+
+    - name: Type check with mypy
+      run: |
+        mypy document_parser
+      continue-on-error: true
