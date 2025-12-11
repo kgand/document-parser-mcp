@@ -1,0 +1,47 @@
+server:
+  name: document-parser-mcp
+  version: 1.0.0
+  max_concurrent_jobs: 3
+  job_timeout_seconds: 600
+
+storage:
+  temp_directory: ./temp
+  cleanup_interval_hours: 24
+  max_file_size_mb: 500
+  allowed_schemes:
+    - http
+    - https
+    - ftp
+  download_timeout_seconds: 600
+
+processing:
+  default_pipeline: standard
+  enable_pipeline_auto_detect: true
+  ocr:
+    engine: easyocr
+    languages:
+      - eng
+    enable_auto_detect: true
+  pdf:
+    backend: dlparse_v4
+    fallback_backend: pypdfium2
+    enable_table_extraction: true
+    table_accuracy_mode: accurate
+  performance:
+    max_memory_gb: 6
+    enable_mlx_acceleration: true
+    thread_count: 4
+
+logging:
+  level: INFO
+  format_string: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  file_path: ./logs/server.log
+  max_file_size_mb: 10
+  backup_count: 5
+  enable_json_logs: false
+
+retry:
+  enable_pipeline_fallback: true
+  enable_backend_fallback: true
+  max_attempts: 3
+  delay_seconds: 2
