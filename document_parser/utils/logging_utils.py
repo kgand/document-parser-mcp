@@ -5,7 +5,6 @@ Logging configuration utilities.
 import logging
 import logging.handlers
 from pathlib import Path
-from typing import Optional
 
 from document_parser.config.models import LoggingSettings
 
@@ -60,7 +59,7 @@ def setup_logging(settings: LoggingSettings) -> None:
     root_logger.addHandler(file_handler)
 
 
-def get_logger(name: Optional[str] = None) -> logging.Logger:
+def get_logger(name: str | None = None) -> logging.Logger:
     """
     Get a logger instance.
 

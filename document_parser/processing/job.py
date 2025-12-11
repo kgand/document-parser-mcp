@@ -5,7 +5,7 @@ Job model and status definitions.
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 
 class JobStatus(Enum):
@@ -40,11 +40,11 @@ class Job:
     options: dict[str, Any] = field(default_factory=dict)
     status: JobStatus = JobStatus.PENDING
     created_at: datetime = field(default_factory=datetime.now)
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    result_data: Optional[str] = None
-    error_message: Optional[str] = None
-    error_details: Optional[str] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    result_data: str | None = None
+    error_message: str | None = None
+    error_details: str | None = None
     retry_count: int = 0
 
     def mark_queued(self) -> None:
@@ -67,7 +67,7 @@ class Job:
         self.completed_at = datetime.now()
         self.result_data = result
 
-    def mark_failed(self, error: str, details: Optional[str] = None) -> None:
+    def mark_failed(self, error: str, details: str | None = None) -> None:
         """
         Mark job as failed and store error information.
 
@@ -89,7 +89,7 @@ class Job:
         """Increment retry counter."""
         self.retry_count += 1
 
-    def get_duration_seconds(self) -> Optional[float]:
+    def get_duration_seconds(self) -> float | None:
         """
         Get job duration in seconds.
 

@@ -3,7 +3,6 @@ Network-related utility functions.
 """
 
 from pathlib import Path
-from typing import Optional
 from urllib.parse import urlparse
 
 
@@ -24,7 +23,7 @@ def is_valid_url(source: str) -> bool:
         return False
 
 
-def extract_filename_from_url(url: str) -> Optional[str]:
+def extract_filename_from_url(url: str) -> str | None:
     """
     Extract filename from a URL.
 

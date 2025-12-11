@@ -6,7 +6,7 @@ import asyncio
 import importlib.util
 import logging
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from document_parser.config.models import ApplicationSettings
 from document_parser.core.exceptions import ProcessingError
@@ -60,8 +60,8 @@ class DocumentProcessor:
     async def process_document(
         self,
         source: str,
-        pipeline: Optional[str] = None,
-        options: Optional[dict[str, Any]] = None,
+        pipeline: str | None = None,
+        options: dict[str, Any] | None = None,
     ) -> str:
         """
         Process a document and convert to markdown.
@@ -213,7 +213,7 @@ class DocumentProcessor:
         file_path: str,
         original_pipeline: ProcessingPipeline,
         options: dict[str, Any],
-    ) -> Optional[str]:
+    ) -> str | None:
         """
         Try fallback processing strategies.
 

@@ -4,7 +4,6 @@ Task tracker for monitoring job status and history.
 
 import logging
 from collections import OrderedDict
-from typing import Optional
 
 from document_parser.processing.job import Job, JobStatus
 
@@ -62,7 +61,7 @@ class TaskTracker:
             del self._active_jobs[job_id]
             self._logger.debug(f"Marked job {job_id} as inactive")
 
-    def get_job(self, job_id: str) -> Optional[Job]:
+    def get_job(self, job_id: str) -> Job | None:
         """
         Get job by ID.
 

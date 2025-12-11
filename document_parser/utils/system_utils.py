@@ -4,7 +4,6 @@ System-related utility functions.
 
 import importlib.util
 import uuid
-from typing import Optional
 
 
 def get_available_memory() -> float:
@@ -34,7 +33,7 @@ def is_mlx_available() -> bool:
     return importlib.util.find_spec("mlx") is not None
 
 
-def generate_unique_id(prefix: Optional[str] = None) -> str:
+def generate_unique_id(prefix: str | None = None) -> str:
     """
     Generate a unique identifier.
 

@@ -4,17 +4,16 @@ Settings loader and manager.
 
 import os
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
 from document_parser.config.models import ApplicationSettings
 from document_parser.core.exceptions import ConfigurationError
 
-_settings_instance: Optional[ApplicationSettings] = None
+_settings_instance: ApplicationSettings | None = None
 
 
-def load_settings(config_path: Optional[str] = None) -> ApplicationSettings:
+def load_settings(config_path: str | None = None) -> ApplicationSettings:
     """
     Load application settings from YAML file.
 

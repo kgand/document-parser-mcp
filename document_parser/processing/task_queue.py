@@ -4,7 +4,6 @@ Task queue for managing concurrent job processing.
 
 import asyncio
 import logging
-from typing import Optional
 
 from document_parser.processing.job import Job
 
@@ -46,7 +45,7 @@ class TaskQueue:
             self._logger.warning(f"Queue full, cannot enqueue job {job.job_id}")
             return False
 
-    async def dequeue(self, timeout: Optional[float] = None) -> Optional[Job]:
+    async def dequeue(self, timeout: float | None = None) -> Job | None:
         """
         Remove and return a job from the queue.
 
