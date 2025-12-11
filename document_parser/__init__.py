@@ -6,7 +6,7 @@ capabilities using the Docling toolkit.
 """
 
 __version__ = "1.0.0"
-__author__ = "Document Parser Team"
+__author__ = "Kovidh Gandreti"
 __license__ = "MIT"
 
 from document_parser.core.exceptions import (
