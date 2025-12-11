@@ -3,7 +3,7 @@ Configuration models using Pydantic.
 """
 
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class ServerSettings(BaseModel):
@@ -188,8 +188,7 @@ class ApplicationSettings(BaseModel):
         default_factory=RetrySettings, description="Retry settings"
     )
 
-    class Config:
-        """Pydantic configuration."""
-
-        validate_assignment = True
-        extra = "forbid"
+    model_config = ConfigDict(
+        validate_assignment=True,
+        extra="forbid",
+    )
