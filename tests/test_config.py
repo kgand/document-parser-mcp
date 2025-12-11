@@ -47,15 +47,15 @@ class TestConfigurationModels:
 
     def test_table_mode_validation(self):
         """Test table mode validation."""
-        settings = ProcessingSettings()
+        from document_parser.config.models import PDFSettings
 
         # Valid modes
-        settings.pdf.table_accuracy_mode = "fast"
-        assert settings.pdf.table_accuracy_mode == "fast"
+        pdf_settings = PDFSettings(table_accuracy_mode="fast")
+        assert pdf_settings.table_accuracy_mode == "fast"
 
         # Invalid mode should raise error
         with pytest.raises(ValueError):
-            settings.pdf.table_accuracy_mode = "invalid"
+            PDFSettings(table_accuracy_mode="invalid")
 
 
 class TestConfigurationLoading:
