@@ -3,7 +3,6 @@ Pytest configuration and fixtures.
 """
 
 import pytest
-from pathlib import Path
 
 from document_parser.config.models import ApplicationSettings
 from document_parser.config.settings import reset_settings

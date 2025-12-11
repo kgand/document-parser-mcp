@@ -3,7 +3,7 @@ Factory for creating document processing pipelines.
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from document_parser.config.models import ProcessingSettings
 from document_parser.processing.job import ProcessingPipeline
@@ -25,8 +25,8 @@ class PipelineFactory:
         self._logger = logging.getLogger(__name__)
 
     def create_standard_pipeline_options(
-        self, user_options: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_options: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Create configuration for standard processing pipeline.
 
@@ -36,9 +36,9 @@ class PipelineFactory:
         Returns:
             Pipeline configuration dictionary
         """
-        from docling.document_converter import PdfFormatOption
-        from docling.datamodel.pipeline_options import PdfPipelineOptions
         from docling.datamodel.base_models import InputFormat
+        from docling.datamodel.pipeline_options import PdfPipelineOptions
+        from docling.document_converter import PdfFormatOption
 
         # Create base pipeline options
         pipeline_opts = PdfPipelineOptions()
@@ -55,9 +55,7 @@ class PipelineFactory:
             pipeline_opts.do_formula_enrichment = True
 
         # Table extraction mode
-        table_mode = user_options.get(
-            "table_accuracy_mode", self.settings.pdf.table_accuracy_mode
-        )
+        user_options.get("table_accuracy_mode", self.settings.pdf.table_accuracy_mode)
 
         # Configure PDF backend
         pdf_backend = user_options.get("pdf_backend", self.settings.pdf.backend)
@@ -66,13 +64,11 @@ class PipelineFactory:
             f"Standard pipeline: OCR={ocr_enabled}, backend={pdf_backend}"
         )
 
-        return {
-            InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_opts)
-        }
+        return {InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_opts)}
 
     def create_vlm_pipeline_options(
-        self, user_options: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_options: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Create configuration for VLM (Vision-Language Model) pipeline.
 
@@ -83,11 +79,11 @@ class PipelineFactory:
             Pipeline configuration dictionary
         """
         try:
-            from docling.document_converter import PdfFormatOption
-            from docling.pipeline.vlm_pipeline import VlmPipeline
-            from docling.datamodel.pipeline_options import VlmPipelineOptions
             from docling.datamodel import vlm_model_specs
             from docling.datamodel.base_models import InputFormat
+            from docling.datamodel.pipeline_options import VlmPipelineOptions
+            from docling.document_converter import PdfFormatOption
+            from docling.pipeline.vlm_pipeline import VlmPipeline
 
             # Choose VLM model based on MLX availability
             if self.settings.performance.enable_mlx_acceleration:
@@ -115,8 +111,8 @@ class PipelineFactory:
             return self.create_standard_pipeline_options(user_options)
 
     def create_asr_pipeline_options(
-        self, user_options: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, user_options: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Create configuration for ASR (Automatic Speech Recognition) pipeline.
 
@@ -127,10 +123,10 @@ class PipelineFactory:
             Pipeline configuration dictionary
         """
         try:
+            from docling.datamodel.base_models import InputFormat
+            from docling.datamodel.pipeline_options import AsrPipelineOptions
             from docling.document_converter import AudioFormatOption
             from docling.pipeline.asr_pipeline import AsrPipeline
-            from docling.datamodel.pipeline_options import AsrPipelineOptions
-            from docling.datamodel.base_models import InputFormat
 
             # Configure ASR model size
             asr_model = user_options.get("asr_model", "whisper_small")
@@ -151,8 +147,8 @@ class PipelineFactory:
             return self.create_standard_pipeline_options(user_options)
 
     def create_pipeline_options(
-        self, pipeline: ProcessingPipeline, user_options: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, pipeline: ProcessingPipeline, user_options: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Create pipeline configuration based on type.
 
@@ -173,7 +169,7 @@ class PipelineFactory:
             # Default to standard
             return self.create_standard_pipeline_options(user_options)
 
-    def get_supported_formats(self) -> Dict[str, Any]:
+    def get_supported_formats(self) -> dict[str, Any]:
         """
         Get list of supported input and output formats.
 

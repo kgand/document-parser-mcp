@@ -5,11 +5,11 @@ Settings loader and manager.
 import os
 from pathlib import Path
 from typing import Optional
+
 import yaml
 
 from document_parser.config.models import ApplicationSettings
 from document_parser.core.exceptions import ConfigurationError
-
 
 _settings_instance: Optional[ApplicationSettings] = None
 
@@ -38,7 +38,7 @@ def load_settings(config_path: Optional[str] = None) -> ApplicationSettings:
         return ApplicationSettings()
 
     try:
-        with open(config_file, "r", encoding="utf-8") as f:
+        with open(config_file, encoding="utf-8") as f:
             config_data = yaml.safe_load(f)
 
         if config_data is None:
@@ -48,13 +48,11 @@ def load_settings(config_path: Optional[str] = None) -> ApplicationSettings:
 
     except yaml.YAMLError as e:
         raise ConfigurationError(
-            f"Failed to parse YAML configuration: {config_path}",
-            details=str(e)
+            f"Failed to parse YAML configuration: {config_path}", details=str(e)
         )
     except Exception as e:
         raise ConfigurationError(
-            f"Failed to load configuration: {config_path}",
-            details=str(e)
+            f"Failed to load configuration: {config_path}", details=str(e)
         )
 
 

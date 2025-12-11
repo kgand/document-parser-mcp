@@ -4,12 +4,12 @@ Configuration module for document parser.
 
 from document_parser.config.models import (
     ApplicationSettings,
+    LoggingSettings,
     ProcessingSettings,
     ServerSettings,
     StorageSettings,
-    LoggingSettings,
 )
-from document_parser.config.settings import load_settings, get_settings
+from document_parser.config.settings import get_settings, load_settings
 
 __all__ = [
     "ApplicationSettings",

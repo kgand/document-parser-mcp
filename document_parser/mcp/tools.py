@@ -3,10 +3,9 @@ MCP tool definitions.
 """
 
 import mcp.types as types
-from typing import List
 
 
-def get_tool_definitions() -> List[types.Tool]:
+def get_tool_definitions() -> list[types.Tool]:
     """
     Get MCP tool definitions.
 

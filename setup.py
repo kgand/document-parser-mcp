@@ -26,7 +26,7 @@ setup(
     name="document-parser-mcp",
     version="1.0.0",
     author="Kovidh Gandreti",
-    author_email="kovidh@gandreti.com",
+    author_email="kovidhgandreti@gmail.com",
     description="MCP server for intelligent document processing using Docling",
     long_description=long_description,
     long_description_content_type="text/markdown",

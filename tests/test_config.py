@@ -3,7 +3,6 @@ Tests for configuration system.
 """
 
 import pytest
-from pathlib import Path
 
 from document_parser.config.models import (
     ApplicationSettings,

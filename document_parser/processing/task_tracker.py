@@ -4,8 +4,7 @@ Task tracker for monitoring job status and history.
 
 import logging
 from collections import OrderedDict
-from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 from document_parser.processing.job import Job, JobStatus
 
@@ -23,8 +22,8 @@ class TaskTracker:
             max_history: Maximum number of jobs to keep in history
         """
         self.max_history = max_history
-        self._jobs: Dict[str, Job] = OrderedDict()
-        self._active_jobs: Dict[str, Job] = {}
+        self._jobs: dict[str, Job] = OrderedDict()
+        self._active_jobs: dict[str, Job] = {}
         self._logger = logging.getLogger(__name__)
 
     def register_job(self, job: Job) -> None:
@@ -75,7 +74,7 @@ class TaskTracker:
         """
         return self._jobs.get(job_id)
 
-    def get_active_jobs(self) -> List[Job]:
+    def get_active_jobs(self) -> list[Job]:
         """
         Get all actively processing jobs.
 
@@ -84,7 +83,7 @@ class TaskTracker:
         """
         return list(self._active_jobs.values())
 
-    def get_jobs_by_status(self, status: JobStatus) -> List[Job]:
+    def get_jobs_by_status(self, status: JobStatus) -> list[Job]:
         """
         Get all jobs with a specific status.
 
@@ -96,7 +95,7 @@ class TaskTracker:
         """
         return [job for job in self._jobs.values() if job.status == status]
 
-    def get_recent_jobs(self, limit: int = 10) -> List[Job]:
+    def get_recent_jobs(self, limit: int = 10) -> list[Job]:
         """
         Get most recent jobs.
 
@@ -109,7 +108,7 @@ class TaskTracker:
         jobs = list(self._jobs.values())
         return jobs[-limit:]
 
-    def get_statistics(self) -> Dict[str, any]:
+    def get_statistics(self) -> dict[str, any]:
         """
         Get processing statistics.
 
@@ -146,13 +145,17 @@ class TaskTracker:
         while len(self._jobs) > self.max_history:
             # Remove oldest job (first item in OrderedDict)
             oldest_job_id = next(iter(self._jobs))
-            removed_job = self._jobs.pop(oldest_job_id)
+            self._jobs.pop(oldest_job_id)
             self._logger.debug(f"Removed old job {oldest_job_id} from history")
 
     def clear_history(self) -> None:
         """Clear all job history except active jobs."""
         active_job_ids = set(self._active_jobs.keys())
         self._jobs = OrderedDict(
-            {job_id: job for job_id, job in self._jobs.items() if job_id in active_job_ids}
+            {
+                job_id: job
+                for job_id, job in self._jobs.items()
+                if job_id in active_job_ids
+            }
         )
         self._logger.info("Cleared job history")

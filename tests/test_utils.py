@@ -2,17 +2,14 @@
 Tests for utility functions.
 """
 
-import pytest
-from pathlib import Path
-
 from document_parser.utils.file_utils import (
-    sanitize_filename,
-    get_file_extension,
     detect_document_type,
+    get_file_extension,
+    sanitize_filename,
 )
 from document_parser.utils.network_utils import (
-    is_valid_url,
     extract_filename_from_url,
+    is_valid_url,
     validate_url_scheme,
 )
 from document_parser.utils.system_utils import generate_unique_id

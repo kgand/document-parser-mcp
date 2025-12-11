@@ -6,8 +6,7 @@ import asyncio
 import logging
 from typing import Optional
 
-from document_parser.processing.job import Job, JobStatus
-from document_parser.core.exceptions import ProcessingError
+from document_parser.processing.job import Job
 
 
 class TaskQueue:

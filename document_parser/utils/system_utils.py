@@ -2,6 +2,7 @@
 System-related utility functions.
 """
 
+import importlib.util
 import uuid
 from typing import Optional
 
@@ -30,12 +31,7 @@ def is_mlx_available() -> bool:
     Returns:
         True if MLX is available, False otherwise
     """
-    try:
-        import mlx
-
-        return True
-    except ImportError:
-        return False
+    return importlib.util.find_spec("mlx") is not None
 
 
 def generate_unique_id(prefix: Optional[str] = None) -> str:

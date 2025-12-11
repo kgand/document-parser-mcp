@@ -2,7 +2,6 @@
 Tests for processing components.
 """
 
-import pytest
 from datetime import datetime
 
 from document_parser.processing.job import Job, JobStatus, ProcessingPipeline

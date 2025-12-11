@@ -2,17 +2,15 @@
 Download manager for remote documents.
 """
 
-import asyncio
 import logging
 from pathlib import Path
-from typing import Optional
 
 import aiofiles
 import httpx
 
 from document_parser.config.models import StorageSettings
 from document_parser.core.exceptions import NetworkError
-from document_parser.utils.file_utils import sanitize_filename, ensure_directory
+from document_parser.utils.file_utils import ensure_directory, sanitize_filename
 from document_parser.utils.network_utils import (
     extract_filename_from_url,
     validate_url_scheme,
