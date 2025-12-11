@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
-    {name = "Kovidh Gandreti", email = "kovidh@gandreti.com"}
+    {name = "Kovidh Gandreti", email = "kovidhgandreti@gmail.com"}
 ]
 keywords = ["mcp", "document-processing", "docling", "pdf", "ocr"]
 classifiers = [
