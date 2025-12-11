@@ -4,7 +4,7 @@ MCP tool handlers.
 
 import json
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 import mcp.types as types
 
@@ -45,8 +45,8 @@ class ToolHandlers:
         self._logger = logging.getLogger(__name__)
 
     async def handle_parse_document(
-        self, arguments: Dict[str, Any]
-    ) -> List[types.TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[types.TextContent]:
         """
         Handle basic document parsing request.
 
@@ -116,8 +116,8 @@ class ToolHandlers:
             raise ProcessingError(f"Document parsing failed: {str(e)}")
 
     async def handle_parse_document_advanced(
-        self, arguments: Dict[str, Any]
-    ) -> List[types.TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[types.TextContent]:
         """
         Handle advanced document parsing request.
 
@@ -145,9 +145,7 @@ class ToolHandlers:
         # Remove None values
         options = {k: v for k, v in options.items() if v is not None}
 
-        self._logger.info(
-            f"Advanced parsing: {source} with pipeline: {pipeline}"
-        )
+        self._logger.info(f"Advanced parsing: {source} with pipeline: {pipeline}")
 
         # Use same logic as basic parsing
         arguments_copy = {
@@ -159,8 +157,8 @@ class ToolHandlers:
         return await self.handle_parse_document(arguments_copy)
 
     async def handle_get_job_status(
-        self, arguments: Dict[str, Any]
-    ) -> List[types.TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[types.TextContent]:
         """
         Handle job status request.
 
@@ -180,13 +178,11 @@ class ToolHandlers:
 
         status_data = job.to_dict()
 
-        return [
-            types.TextContent(type="text", text=json.dumps(status_data, indent=2))
-        ]
+        return [types.TextContent(type="text", text=json.dumps(status_data, indent=2))]
 
     async def handle_list_supported_formats(
-        self, arguments: Dict[str, Any]
-    ) -> List[types.TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[types.TextContent]:
         """
         Handle supported formats request.
 
@@ -198,13 +194,11 @@ class ToolHandlers:
         """
         formats = self.processor.get_supported_formats()
 
-        return [
-            types.TextContent(type="text", text=json.dumps(formats, indent=2))
-        ]
+        return [types.TextContent(type="text", text=json.dumps(formats, indent=2))]
 
     async def handle_get_queue_statistics(
-        self, arguments: Dict[str, Any]
-    ) -> List[types.TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[types.TextContent]:
         """
         Handle queue statistics request.
 
@@ -223,9 +217,7 @@ class ToolHandlers:
         }
 
         return [
-            types.TextContent(
-                type="text", text=json.dumps(combined_stats, indent=2)
-            )
+            types.TextContent(type="text", text=json.dumps(combined_stats, indent=2))
         ]
 
     def _parse_pipeline_string(self, pipeline: str) -> ProcessingPipeline:

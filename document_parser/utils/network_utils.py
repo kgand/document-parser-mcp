@@ -3,8 +3,8 @@ Network-related utility functions.
 """
 
 from pathlib import Path
-from urllib.parse import urlparse
 from typing import Optional
+from urllib.parse import urlparse
 
 
 def is_valid_url(source: str) -> bool:

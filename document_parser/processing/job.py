@@ -5,7 +5,7 @@ Job model and status definitions.
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class JobStatus(Enum):
@@ -37,7 +37,7 @@ class Job:
     job_id: str
     source_path: str
     pipeline: ProcessingPipeline
-    options: Dict[str, Any] = field(default_factory=dict)
+    options: dict[str, Any] = field(default_factory=dict)
     status: JobStatus = JobStatus.PENDING
     created_at: datetime = field(default_factory=datetime.now)
     started_at: Optional[datetime] = None
@@ -101,7 +101,7 @@ class Job:
             return delta.total_seconds()
         return None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Convert job to dictionary representation.
 

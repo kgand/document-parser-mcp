@@ -4,7 +4,7 @@ Main MCP server implementation.
 
 import asyncio
 import logging
-from typing import Any, Dict
+from typing import Any
 
 import mcp.server.stdio
 import mcp.types as types
@@ -36,9 +36,7 @@ class DocumentParserServer:
 
         # Initialize components
         self.processor = DocumentProcessor(settings)
-        self.task_queue = TaskQueue(
-            max_size=settings.server.max_concurrent_jobs
-        )
+        self.task_queue = TaskQueue(max_size=settings.server.max_concurrent_jobs)
         self.task_tracker = TaskTracker(max_history=100)
 
         # Initialize tool handlers
@@ -63,37 +61,25 @@ class DocumentParserServer:
             return get_tool_definitions()
 
         @self.server.call_tool()
-        async def handle_call_tool(
-            name: str, arguments: Dict[str, Any]
-        ):
+        async def handle_call_tool(name: str, arguments: dict[str, Any]):
             """Handle tool calls."""
             try:
                 if name == "parse_document":
                     return await self.handlers.handle_parse_document(arguments)
                 elif name == "parse_document_advanced":
-                    return await self.handlers.handle_parse_document_advanced(
-                        arguments
-                    )
+                    return await self.handlers.handle_parse_document_advanced(arguments)
                 elif name == "get_job_status":
                     return await self.handlers.handle_get_job_status(arguments)
                 elif name == "list_supported_formats":
-                    return await self.handlers.handle_list_supported_formats(
-                        arguments
-                    )
+                    return await self.handlers.handle_list_supported_formats(arguments)
                 elif name == "get_queue_statistics":
-                    return await self.handlers.handle_get_queue_statistics(
-                        arguments
-                    )
+                    return await self.handlers.handle_get_queue_statistics(arguments)
                 else:
                     raise ValueError(f"Unknown tool: {name}")
 
             except Exception as e:
                 self._logger.error(f"Tool call error ({name}): {e}")
-                return [
-                    types.TextContent(
-                        type="text", text=f"Error: {str(e)}"
-                    )
-                ]
+                return [types.TextContent(type="text", text=f"Error: {str(e)}")]
 
     def _start_background_tasks(self) -> None:
         """Start background maintenance tasks."""
@@ -132,6 +118,4 @@ class DocumentParserServer:
             read_stream,
             write_stream,
         ):
-            await self.server.run(
-                read_stream, write_stream, NotificationOptions()
-            )
+            await self.server.run(read_stream, write_stream, NotificationOptions())

@@ -2,7 +2,6 @@
 Configuration models using Pydantic.
 """
 
-from typing import List, Optional
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
@@ -31,7 +30,7 @@ class StorageSettings(BaseModel):
     max_file_size_mb: int = Field(
         default=500, ge=1, description="Maximum file size in MB"
     )
-    allowed_schemes: List[str] = Field(
+    allowed_schemes: list[str] = Field(
         default=["http", "https", "ftp"], description="Allowed URL schemes"
     )
     download_timeout_seconds: int = Field(
@@ -43,9 +42,7 @@ class OCRSettings(BaseModel):
     """OCR configuration settings."""
 
     engine: str = Field(default="easyocr", description="OCR engine to use")
-    languages: List[str] = Field(
-        default=["eng"], description="Default OCR languages"
-    )
+    languages: list[str] = Field(default=["eng"], description="Default OCR languages")
     enable_auto_detect: bool = Field(
         default=True, description="Auto-detect when OCR is needed"
     )
@@ -54,9 +51,7 @@ class OCRSettings(BaseModel):
 class PDFSettings(BaseModel):
     """PDF processing settings."""
 
-    backend: str = Field(
-        default="dlparse_v4", description="PDF backend to use"
-    )
+    backend: str = Field(default="dlparse_v4", description="PDF backend to use")
     fallback_backend: str = Field(
         default="pypdfium2", description="Fallback PDF backend"
     )
@@ -100,12 +95,8 @@ class ProcessingSettings(BaseModel):
     enable_pipeline_auto_detect: bool = Field(
         default=True, description="Auto-detect optimal pipeline"
     )
-    ocr: OCRSettings = Field(
-        default_factory=OCRSettings, description="OCR settings"
-    )
-    pdf: PDFSettings = Field(
-        default_factory=PDFSettings, description="PDF settings"
-    )
+    ocr: OCRSettings = Field(default_factory=OCRSettings, description="OCR settings")
+    pdf: PDFSettings = Field(default_factory=PDFSettings, description="PDF settings")
     performance: PerformanceSettings = Field(
         default_factory=PerformanceSettings, description="Performance settings"
     )
@@ -128,15 +119,11 @@ class LoggingSettings(BaseModel):
         default="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         description="Log format string",
     )
-    file_path: str = Field(
-        default="./logs/server.log", description="Log file path"
-    )
+    file_path: str = Field(default="./logs/server.log", description="Log file path")
     max_file_size_mb: int = Field(
         default=10, ge=1, description="Max log file size in MB"
     )
-    backup_count: int = Field(
-        default=5, ge=1, description="Number of backup log files"
-    )
+    backup_count: int = Field(default=5, ge=1, description="Number of backup log files")
     enable_json_logs: bool = Field(
         default=False, description="Enable JSON formatted logs"
     )

@@ -3,9 +3,10 @@ Main document processor.
 """
 
 import asyncio
+import importlib.util
 import logging
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from document_parser.config.models import ApplicationSettings
 from document_parser.core.exceptions import ProcessingError
@@ -50,18 +51,16 @@ class DocumentProcessor:
 
         # Check MLX if enabled
         if self.settings.processing.performance.enable_mlx_acceleration:
-            try:
-                import mlx
-
+            if importlib.util.find_spec("mlx") is not None:
                 self._logger.info("MLX acceleration available")
-            except ImportError:
+            else:
                 self._logger.warning("MLX not available, using CPU/GPU fallback")
 
     async def process_document(
         self,
         source: str,
         pipeline: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None,
+        options: Optional[dict[str, Any]] = None,
     ) -> str:
         """
         Process a document and convert to markdown.
@@ -130,7 +129,7 @@ class DocumentProcessor:
         self,
         file_path: str,
         pipeline: ProcessingPipeline,
-        options: Dict[str, Any],
+        options: dict[str, Any],
     ) -> str:
         """
         Execute document processing with specified pipeline.
@@ -174,7 +173,7 @@ class DocumentProcessor:
         self,
         file_path: str,
         pipeline: ProcessingPipeline,
-        options: Dict[str, Any],
+        options: dict[str, Any],
     ) -> str:
         """
         Synchronous document processing (runs in thread pool).
@@ -204,9 +203,7 @@ class DocumentProcessor:
         # Export to markdown
         markdown_content = document.export_to_markdown()
 
-        self._logger.info(
-            f"Processing complete: {len(markdown_content)} characters"
-        )
+        self._logger.info(f"Processing complete: {len(markdown_content)} characters")
 
         return markdown_content
 
@@ -214,7 +211,7 @@ class DocumentProcessor:
         self,
         file_path: str,
         original_pipeline: ProcessingPipeline,
-        options: Dict[str, Any],
+        options: dict[str, Any],
     ) -> Optional[str]:
         """
         Try fallback processing strategies.
@@ -236,7 +233,9 @@ class DocumentProcessor:
             # Try with different backend
             if self.settings.retry.enable_backend_fallback:
                 fallback_options = options.copy()
-                fallback_options["pdf_backend"] = self.settings.processing.pdf.fallback_backend
+                fallback_options["pdf_backend"] = (
+                    self.settings.processing.pdf.fallback_backend
+                )
                 fallback_strategies.append(ProcessingPipeline.STANDARD)
 
         # Try each fallback
@@ -273,11 +272,9 @@ class DocumentProcessor:
             "auto": ProcessingPipeline.AUTO,
         }
 
-        return pipeline_map.get(
-            pipeline.lower(), ProcessingPipeline.STANDARD
-        )
+        return pipeline_map.get(pipeline.lower(), ProcessingPipeline.STANDARD)
 
-    def get_supported_formats(self) -> Dict[str, Any]:
+    def get_supported_formats(self) -> dict[str, Any]:
         """
         Get supported document formats.
 

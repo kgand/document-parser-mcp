@@ -10,9 +10,9 @@ __author__ = "Kovidh Gandreti"
 __license__ = "MIT"
 
 from document_parser.core.exceptions import (
+    ConfigurationError,
     DocumentParserError,
     ProcessingError,
-    ConfigurationError,
 )
 
 __all__ = [

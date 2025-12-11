@@ -3,9 +3,9 @@ Core module for document parser functionality.
 """
 
 from document_parser.core.exceptions import (
+    ConfigurationError,
     DocumentParserError,
     ProcessingError,
-    ConfigurationError,
 )
 
 __all__ = [

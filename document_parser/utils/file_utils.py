@@ -5,7 +5,6 @@ File-related utility functions.
 import re
 import time
 from pathlib import Path
-from typing import Tuple
 from urllib.parse import urlparse
 
 
@@ -52,7 +51,7 @@ def get_file_extension(file_path: str) -> str:
     return Path(path).suffix.lower()
 
 
-def detect_document_type(source: str) -> Tuple[str, str]:
+def detect_document_type(source: str) -> tuple[str, str]:
     """
     Detect document type and suggest optimal processing pipeline.
 
