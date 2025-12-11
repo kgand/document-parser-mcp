@@ -1,0 +1,49 @@
+# Low Resource Configuration
+# Optimized for limited memory and CPU
+
+server:
+  name: document-parser-mcp
+  version: 1.0.0
+  max_concurrent_jobs: 1  # Single job only
+  job_timeout_seconds: 600
+
+storage:
+  temp_directory: ./temp
+  cleanup_interval_hours: 6  # Frequent cleanup
+  max_file_size_mb: 100  # Smaller files only
+  allowed_schemes: [http, https]
+  download_timeout_seconds: 300
+
+processing:
+  default_pipeline: standard
+  enable_pipeline_auto_detect: false  # Manual pipeline selection
+
+  ocr:
+    engine: easyocr
+    languages: [eng]  # Single language
+    enable_auto_detect: false
+
+  pdf:
+    backend: pypdfium2  # Lightweight backend
+    fallback_backend: dlparse_v4
+    enable_table_extraction: false  # Disable for speed
+    table_accuracy_mode: fast
+
+  performance:
+    max_memory_gb: 2  # Low memory limit
+    enable_mlx_acceleration: false
+    thread_count: 2  # Minimal threads
+
+logging:
+  level: ERROR  # Minimal logging
+  format_string: '%(levelname)s - %(message)s'
+  file_path: ./logs/server.log
+  max_file_size_mb: 2
+  backup_count: 2
+  enable_json_logs: false
+
+retry:
+  enable_pipeline_fallback: false
+  enable_backend_fallback: false
+  max_attempts: 1  # No retries
+  delay_seconds: 1
